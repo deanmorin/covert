@@ -76,6 +76,7 @@ void client()
 
     /* initial ID that all encoding will be based off of (also length of msg) */
     send_encoded(sd, dgram, ntohs(iph->length), &din);
+    sleep(1);
     ip_flags(iph, 0);
 
     while ((c = fgetc(in)) != EOF)

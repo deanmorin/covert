@@ -26,7 +26,9 @@ int raw_socket();
 void send_encoded(int sd, char *dgram, uint16_t len, struct sockaddr_in *din);
 
 void server();
-void rcv_encoded(uint16_t *ids, uint16_t len);
-void decode(char *decoded, uint16_t initid, uint16_t *ids, int len);
+void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
+        struct sockaddr_in *client);
+void decode(char *decoded, uint16_t *ids, uint16_t len);
+void recv_dgram(int sd, char *buf, struct sockaddr_in *client);
 
 #endif
