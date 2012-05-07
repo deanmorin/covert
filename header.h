@@ -2,6 +2,8 @@
 #define DM_HEADER_H
 #include <stdint.h>
 
+#define IP_DONTFRAG    0x2
+
 #define TCP_FIN     0x0001
 #define TCP_SYN     0x0002
 #define TCP_RST     0x0004
@@ -11,6 +13,13 @@
 #define TCP_ECE     0x0040
 #define TCP_CWR     0x0080
 #define TCP_NS      0x0100
+
+/*
+ * Use these macros to retrieve values from a header. Use the functions below to
+ * set values, since they provide bounds checking and clear previous values in
+ * the asssociated fields.
+ */
+#define IP_FLAGS(hdr)   ((hdr->_flags_offset >> 5) & 0x0007)
 
 struct ip_header
 {

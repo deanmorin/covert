@@ -18,6 +18,7 @@
 #define SRC_ADDR    "10.211.55.255"
 #define DST_PORT    80
 #define FILENAME    "secret.txt"
+#define RECV_BUFLEN 8096
 
 void client();
 int raw_socket();

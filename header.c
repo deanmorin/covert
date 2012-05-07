@@ -1,4 +1,5 @@
 #include "header.h"
+#include <arpa/inet.h>
 
 int ip_version(struct ip_header *iph, const unsigned char version)
 {
@@ -28,8 +29,8 @@ int ip_flags(struct ip_header *iph, const uint16_t flags)
     {
         return -1;
     }
-    iph->_flags_offset &= 0x1FFF;
-    iph->_flags_offset |= flags << 13;
+    iph->_flags_offset &= 0xFF1F;
+    iph->_flags_offset |= flags << 5;
     return 0;
 }
 
@@ -39,8 +40,8 @@ int ip_offset(struct ip_header *iph, const uint16_t frag_offset)
     {
         return -1;
     }
-    iph->_flags_offset &= 0xE000;
-    iph->_flags_offset |= frag_offset;
+    iph->_flags_offset &= 0x00E0;
+    iph->_flags_offset |= htons(frag_offset);
     return 0;
 }
 
@@ -50,8 +51,8 @@ int tcp_offset(struct tcp_header *tcph, const uint16_t offset)
     {
         return -1;
     }
-    tcph->_offset_flags &= 0x0FFF;
-    tcph->_offset_flags |= offset << 12;
+    tcph->_offset_flags &= 0xFF0F;
+    tcph->_offset_flags |= offset << 4;
     return 0;
 }
 
@@ -61,7 +62,7 @@ int tcp_flags(struct tcp_header *tcph, const uint16_t flags)
     {
         return -1;
     }
-    tcph->_offset_flags &= 0xF000;
-    tcph->_offset_flags |= flags;
+    tcph->_offset_flags &= 0x000F;
+    tcph->_offset_flags |= htons(flags);
     return 0;
 }

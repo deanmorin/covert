@@ -12,7 +12,7 @@ void client()
     int count = 0;
     char c;
 
-    struct ip_header *iph  = (struct ip_header*) dgram;
+    struct ip_header *iph = (struct ip_header*) dgram;
     struct udp_header *udph = (struct udp_header *)
             (dgram + sizeof(struct ip_header));
     struct pseudo_header pseudoh;
@@ -49,8 +49,9 @@ void client()
     iph->tos = 0;
     iph->length = htons(DGRAM_LEN);
     iph->id = htons(initid);   
-    ip_flags(iph, 0);
+    ip_flags(iph, IP_DONTFRAG);
     ip_offset(iph, 0);
+    /*iph->_flags_offset = 0x40;*/
     iph->ttl = 64;
     iph->protocol = IPPROTO_UDP;
     iph->srcip = inet_addr(SRC_ADDR);
@@ -66,9 +67,7 @@ void client()
 
     iph->checksum = chksum((uint16_t *) dgram, IP_HDR_LEN);
 
-
     sd = raw_socket();
-
 
     /*Send loop, send for every 2 second for 100 count*/
     printf("Trying...\n");
@@ -77,6 +76,7 @@ void client()
 
     /* initial ID that all encoding will be based off of (also length of msg) */
     send_encoded(sd, dgram, ntohs(iph->length), &din);
+    ip_flags(iph, 0);
 
     while ((c = fgetc(in)) != EOF)
     {

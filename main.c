@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "clntsrvr.h"
-/*#include "server.h"*/
 
 int main(int argc, char **argv)
 {
@@ -14,6 +13,11 @@ int main(int argc, char **argv)
     /*printf("%d\n", geteuid());*/
     /*printf("%d\n", getegid());*/
 
+    if (argc > 1 && strcmp(argv[1], "-s") == 0)
+    {
+        printf("Starting server...\n");
+        server();
+    }
     client();
 
     return 0;
