@@ -3,12 +3,22 @@
 #include "network.h"
 #include "util.h"
 
+void recv_dgram(int sd, char *buf, struct sockaddr_in *client)
+{
+    socklen_t clen = sizeof(client);
+
+    if (recvfrom(sd, buf, RECV_BUFLEN, 0, (struct sockaddr *) client,
+            &clen) == -1)
+    {
+        exit(sock_error("recvfrom()", 0));
+    }
+}
+
 void server()
 {
     struct sockaddr_in server;
     struct sockaddr_in client;
     int sd;
-    socklen_t clen = sizeof(client);
     char buf[RECV_BUFLEN];
 
     struct ip_header *iph = (struct ip_header*) buf;
@@ -16,7 +26,8 @@ void server()
             (buf + sizeof(struct ip_header));
 
 
-    if ((sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
+    /* IF PROBLEM, CHANGE LAST ARG TO 0 */
+    if ((sd = socket(AF_INET, SOCK_RAW, IPPROTO_UDP)) == -1)
     {
         exit(sock_error("socket()", 0));
     }
@@ -33,11 +44,7 @@ void server()
 
     while (1)
     {
-        if (recvfrom(sd, buf, RECV_BUFLEN, 0, (struct sockaddr *) &client,
-                &clen) == -1)
-        {
-            exit(sock_error("recvfrom()", 0));
-        }
+        recv_dgram(sd, buf, &client);
 
         if (ntohs(udph->srcport) == port_from_date()
                 && IP_FLAGS(iph) == IP_DONTFRAG)
@@ -46,7 +53,7 @@ void server()
         }
         else
         {
-            printf("Not a message we care about\n");
+            printf("A message we don't care about...\n");
         }
     }
 }

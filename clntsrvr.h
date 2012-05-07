@@ -12,10 +12,11 @@
 #define DGRAM_LEN   sizeof(struct ip_header) + sizeof(struct udp_header)
 #define IP_VERSION  4
 #define IP_HDR_LEN  5
+#define SRC_ADDR    "10.211.55.255"
 /*#define DST_ADDR    "24.87.50.12"*/
 /*#define DST_ADDR    "192.168.0.103"*/
-#define DST_ADDR    "63.223.113.57"
-#define SRC_ADDR    "10.211.55.255"
+/*#define DST_ADDR    "63.223.113.57"*/
+#define DST_ADDR    "127.0.0.1"
 #define DST_PORT    80
 #define FILENAME    "secret.txt"
 #define RECV_BUFLEN 8096
