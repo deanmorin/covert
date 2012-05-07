@@ -1,6 +1,5 @@
 #ifndef DM_HEADER_H
 #define DM_HEADER_H
-
 #include <stdint.h>
 
 #define TCP_FIN     0x0001

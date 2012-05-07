@@ -1,12 +1,12 @@
 os := $(shell uname)
-main = main
+main = covert
 compiler = gcc
 flags = -W -Wall -pedantic
 dflags = -g -DDEBUG
 lib =
 cmp = $(compiler) $(flags) $(inc) -c
 lnk = $(compiler) $(flags) $(lib) -o $(main)
-objects = main.o network.o util.o header.o
+objects = main.o client.o server.o network.o util.o header.o
 
 ifeq ($(os), Darwin)
 	flags += -j8
@@ -16,10 +16,16 @@ debug : flags += $(dflags)
 debug : $(main)
 
 $(main) : $(objects)
-	$(lnk) main.o network.o util.o header.o
+	$(lnk) $(objects)
 
-main.o : main.c network.h
+main.o : main.c clntsrvr.h
 	$(cmp) main.c
+
+client.o : client.c clntsrvr.h network.h util.h
+	$(cmp) client.c
+
+server.o : server.c clntsrvr.h network.h util.h
+	$(cmp) server.c
 			
 network.o : network.c network.h
 	$(cmp) network.c
