@@ -72,8 +72,12 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
 {
     int i;
     struct ip_header *iph = (struct ip_header*) buf;
+    struct udp_header *udph = (struct udp_header *)
+            (buf + sizeof(struct ip_header));
     int dgram_num;
-            printf("Message length: %d\n", len);
+
+
+    printf("Message length: %d\n", len);
 
     for (i = 0; i < len * 2; i++)
     {
