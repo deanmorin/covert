@@ -88,6 +88,7 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
         id = ntohs(iph->id);
 
         if (ntohs(udph->srcport) != port_from_date()
+                || IP_FLAGS(iph) == IP_DONTFRAG
                 || !in_range(initid, id))
         {
             /* not one of our packets */

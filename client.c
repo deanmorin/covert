@@ -94,6 +94,7 @@ void client(char *clnt_name, char *srvr_name)
     }
     printf("All datagrams sent.\n");
     close(sd);
+    fclose(in);
 }
 
 int raw_socket()
