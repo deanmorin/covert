@@ -88,8 +88,10 @@ void decode(char *decoded, uint16_t *ids, uint16_t len)
 
     while (i < len * 2)
     {
-        c = (ids[i++] - 0x10 * i - initid - 1) << 4;
-        c |= ids[i++] - 0x10 * i - initid - 1;
+        c = (ids[i] - 0x10 * i - initid - 1) << 4;
+        i++;
+        c |= ids[i] - 0x10 * i - initid - 1;
+        i++;
 
         decoded[i / 2 - 1] = c;
     }
