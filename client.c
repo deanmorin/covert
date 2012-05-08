@@ -70,10 +70,10 @@ void client(char *clnt_name, char *srvr_name)
     sd = raw_socket();
 
 #ifdef DEBUG
-    printf("srcip:    %s\n", inet_ntoa(sin.sin_addr.s_addr));
-    printf("srcport:  %s\n", ntohs(sin.sin_port));
-    printf("dstip:    %s\n", inet_ntoa(din.sin_addr.s_addr));
-    printf("dstport:  %s\n", ntohs(din.sin_port));
+    printf("srcip:    %s\n", inet_ntoa(sin.sin_addr));
+    printf("srcport:  %d\n", ntohs(sin.sin_port));
+    printf("dstip:    %s\n", inet_ntoa(din.sin_addr));
+    printf("dstport:  %d\n", ntohs(din.sin_port));
 #endif
 
     /* initial ID that all encoding will be based off of (also length of msg) */
