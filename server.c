@@ -144,5 +144,5 @@ int in_range(uint16_t initid, uint16_t id)
 {
     uint16_t len = htons(initid);
 
-    return (id > initid && id <= initid + len * 0x10);
+    return (id > initid && id <= initid + len * 0x10 * 2);
 }
