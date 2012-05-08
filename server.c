@@ -97,6 +97,8 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
             printf("  port_from_date():      %d\n", port_from_date());
             printf("  IP_FLAGS(iph):         %d\n", IP_FLAGS(iph));
             printf("  IP_DONTFRAG:           %d\n", IP_DONTFRAG);
+            printf("  id:                    %d\n", id);
+            printf("  in_range(initid, id):  %d\n", in_range(initid, id));
 #endif
             i--;
             continue;
