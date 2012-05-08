@@ -25,5 +25,6 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
         struct sockaddr_in *client);
 void decode(char *decoded, uint16_t *ids, uint16_t len);
 void recv_dgram(int sd, char *buf, struct sockaddr_in *client);
+int in_range(uint16_t initid, uint16_t id);
 
 #endif

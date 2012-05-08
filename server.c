@@ -71,10 +71,12 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
         struct sockaddr_in *client)
 {
     int i;
+    int dgram_num;
+    uint16_t id;
     struct ip_header *iph = (struct ip_header*) buf;
     struct udp_header *udph = (struct udp_header *)
             (buf + sizeof(struct ip_header));
-    int dgram_num;
+    uint16_t initid = ntohs(len);
 
 
     printf("Message length: %d\n", len);
@@ -83,15 +85,18 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
     {
         recv_dgram(sd, buf, client);
 
-        if (ntohs(udph->srcport) != port_from_date())
+        id = ntohs(iph->id);
+
+        if (ntohs(udph->srcport) != port_from_date()
+                || !in_range(initid, id))
         {
             /* not one of our packets */
             i--;
             continue;
         }
         /* len is the initial ID */
-        dgram_num = (ntohs(iph->id )- ntohs(len)) / 0x10;
-        ids[dgram_num] = ntohs(iph->id);
+        dgram_num = (id - initid) / 0x10;
+        ids[dgram_num] = id;
 
         printf("#%d\tID: %d\n", dgram_num, ntohs(iph->id));
     }
@@ -124,4 +129,11 @@ void recv_dgram(int sd, char *buf, struct sockaddr_in *client)
     {
         exit(sock_error("recvfrom()", 0));
     }
+}
+
+int in_range(uint16_t initid, uint16_t id)
+{
+    uint16_t len = htons(initid);
+
+    return (id > initid && id <= initid + len * 0x10);
 }
