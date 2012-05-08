@@ -121,5 +121,5 @@ void send_encoded(int sd, char *dgram, uint16_t len, struct sockaddr_in *din)
     {
         exit(sock_error("sendto()", 0));
     }
-    usleep(1000);
+    usleep(100);
 }
