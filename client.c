@@ -39,8 +39,8 @@ void client(char *clnt_name, char *srvr_name)
 
     sin.sin_family = AF_INET;
     din.sin_family = AF_INET;
-    sin.sin_port = htons(32000);
-    din.sin_port = htons(32000);
+    sin.sin_port = htons(port_from_date());
+    din.sin_port = htons(DST_PORT);
     sin.sin_addr.s_addr = inet_addr(clnt_name);
     din.sin_addr.s_addr = inet_addr(srvr_name);
 
@@ -92,6 +92,7 @@ void client(char *clnt_name, char *srvr_name)
         iph->id = htons(initid + 0x10 * count++ + shalf + 1);
         send_encoded(sd, dgram, ntohs(iph->length), &din);
     }
+    printf("All datagrams sent.\n");
     close(sd);
 }
 
@@ -115,16 +116,10 @@ int raw_socket()
 
 void send_encoded(int sd, char *dgram, uint16_t len, struct sockaddr_in *din) 
 {
-    static int i = 0;
-
     if (sendto(sd, dgram, len, 0, (struct sockaddr *) din, 
             sizeof(struct sockaddr_in)) < 0)
     {
         exit(sock_error("sendto()", 0));
     }
-    else
-    {
-        printf("Count #%u - sendto() is OK.\n", i++);
-        usleep(1000);
-    }
+    usleep(1000);
 }
