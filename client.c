@@ -69,10 +69,12 @@ void client(char *clnt_name, char *srvr_name)
 
     sd = raw_socket();
 
-    /*Send loop, send for every 2 second for 100 count*/
-    printf("Trying...\n");
-    printf("Using raw socket and UDP protocol\n");
-    /*printf("Using Source IP: %s port: %u, Target IP: %s port: %u.\n", argv[1], atoi(argv[2]), argv[3], atoi(argv[4]));*/
+#ifdef DEBUG
+    printf("srcip:    %s\n", inet_ntoa(sin.sin_addr.s_addr));
+    printf("srcport:  %s\n", ntohs(sin.sin_port));
+    printf("dstip:    %s\n", inet_ntoa(din.sin_addr.s_addr));
+    printf("dstport:  %s\n", ntohs(din.sin_port));
+#endif
 
     /* initial ID that all encoding will be based off of (also length of msg) */
     send_encoded(sd, dgram, ntohs(iph->length), &din);
@@ -118,7 +120,6 @@ void send_encoded(int sd, char *dgram, uint16_t len, struct sockaddr_in *din)
     if (sendto(sd, dgram, len, 0, (struct sockaddr *) din, 
             sizeof(struct sockaddr_in)) < 0)
     {
-        perror("SENDTO");
         exit(sock_error("sendto()", 0));
     }
     else
