@@ -124,6 +124,6 @@ void send_encoded(int sd, char *dgram, uint16_t len, struct sockaddr_in *din)
     else
     {
         printf("Count #%u - sendto() is OK.\n", i++);
-        usleep(100);
+        usleep(1000);
     }
 }

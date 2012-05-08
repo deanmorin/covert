@@ -56,9 +56,9 @@ void server()
         }
         else
         {
-            printf("A message we don't care about...\n");
 #ifdef DEBUG
-            printf("  ntohs(udph->srcport:   %d\n", ntohs(udph->srcport));
+            printf("A message we don't care about...\n");
+            printf("  ntohs(udph->srcport):  %d\n", ntohs(udph->srcport));
             printf("  port_from_date():      %d\n", port_from_date());
             printf("  IP_FLAGS(iph):         %d\n", IP_FLAGS(iph));
             printf("  IP_DONTFRAG:           %d\n", IP_DONTFRAG);
@@ -78,6 +78,13 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
     for (i = 0; i < len * 2; i++)
     {
         recv_dgram(sd, buf, client);
+
+        if (ntohs(udph->srcport) != port_from_date())
+        {
+            /* not one of our packets */
+            i--;
+            continue;
+        }
         /* len is the initial ID */
         dgram_num = (ntohs(iph->id )- ntohs(len)) / 0x10;
         ids[dgram_num] = ntohs(iph->id);
