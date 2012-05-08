@@ -18,7 +18,16 @@ int main(int argc, char **argv)
         printf("Starting server...\n");
         server();
     }
-    client();
+    if (argc > 2)
+    {
+        client(argv[1], argv[2]);
+    }
+    else
+    {
+        printf("usage:\n");
+        printf(" -client:  %s <client_ip> <server_ip>\n", argv[0]);
+        printf(" -server:  %s -s\n", argv[0]);
+    }
 
     return 0;
 }

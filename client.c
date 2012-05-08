@@ -3,7 +3,7 @@
 #include "network.h"
 #include "util.h"
 
-void client()
+void client(char *clnt_name, char *srvr_name)
 {
     char dgram[DGRAM_LEN];
     int sd;
@@ -41,8 +41,8 @@ void client()
     din.sin_family = AF_INET;
     sin.sin_port = htons(32000);
     din.sin_port = htons(32000);
-    sin.sin_addr.s_addr = inet_addr(SRC_ADDR);
-    din.sin_addr.s_addr = inet_addr(DST_ADDR);
+    sin.sin_addr.s_addr = inet_addr(clnt_name);
+    din.sin_addr.s_addr = inet_addr(srvr_name);
 
     ip_version(iph, IP_VERSION);
     ip_hdrlen(iph, IP_HDR_LEN);
@@ -54,8 +54,8 @@ void client()
     /*iph->_flags_offset = 0x40;*/
     iph->ttl = 64;
     iph->protocol = IPPROTO_UDP;
-    iph->srcip = inet_addr(SRC_ADDR);
-    iph->dstip = inet_addr(DST_ADDR);
+    iph->srcip = inet_addr(clnt_name);
+    iph->dstip = inet_addr(srvr_name);
 
     udph->srcport = htons(port_from_date());
     udph->dstport = htons(DST_PORT);
