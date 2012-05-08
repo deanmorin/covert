@@ -54,16 +54,16 @@ void server()
             free(ids);
             free(decoded);
         }
+#ifdef DEBUG
         else
         {
-#ifdef DEBUG
             printf("A message we don't care about...\n");
             printf("  ntohs(udph->srcport):  %d\n", ntohs(udph->srcport));
             printf("  port_from_date():      %d\n", port_from_date());
             printf("  IP_FLAGS(iph):         %d\n", IP_FLAGS(iph));
             printf("  IP_DONTFRAG:           %d\n", IP_DONTFRAG);
-#endif
         }
+#endif
     }
 }
 
@@ -91,6 +91,13 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
                 || !in_range(initid, id))
         {
             /* not one of our packets */
+#ifdef DEBUG
+            printf("A message we don't care about...\n");
+            printf("  ntohs(udph->srcport):  %d\n", ntohs(udph->srcport));
+            printf("  port_from_date():      %d\n", port_from_date());
+            printf("  IP_FLAGS(iph):         %d\n", IP_FLAGS(iph));
+            printf("  IP_DONTFRAG:           %d\n", IP_DONTFRAG);
+#endif
             i--;
             continue;
         }
