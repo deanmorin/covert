@@ -105,10 +105,10 @@ void rcv_encoded(uint16_t *ids, uint16_t len, int sd, char *buf,
             continue;
         }
         /* len is the initial ID */
-        dgram_num = (id - initid) / 0x10;
+        dgram_num = (id - initid - 1) / 0x10;
         ids[dgram_num] = id;
 
-        printf("#%d\tID: %d\n", dgram_num + 1, ntohs(iph->id));
+        printf("#%d\tID: %d\n", dgram_num + 1, id);
     }
 }
 
